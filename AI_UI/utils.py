@@ -6,4 +6,5 @@ def load_player_image(path, width, height):
         light_image=Image.open(path),
         dark_image=Image.open(path),
         size=(width, height)
+
     )
