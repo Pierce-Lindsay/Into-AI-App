@@ -50,3 +50,4 @@ class PlayerProfile(ctk.CTkFrame):
 
 
 
+
