@@ -98,3 +98,4 @@ class TeamSummary(ctk.CTkFrame):
 
 
 
+
