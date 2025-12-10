@@ -12,3 +12,20 @@ def load_player_image(path, width, height):
         dark_image=Image.open(path),
         size=(width, height)
     )
+
+
+def team_to_dataframe(team):
+    import pandas as pd
+
+    data = {
+        "weight": [],
+        "height": [],
+        "age": []
+    }
+
+    for player in team:
+        data["weight"].append(player.weight)
+        data["height"].append(player.height)
+        data["age"].append(player.age)
+
+    return pd.DataFrame(data)

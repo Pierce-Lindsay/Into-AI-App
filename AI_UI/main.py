@@ -8,6 +8,9 @@ from Player import Player
 
 class App(ctk.CTk):
 
+    all_players: list[Player] = []
+    team: list[Player] = []
+
     def __init__(self):
         super().__init__()
         self.geometry("1200x600")

@@ -3,6 +3,7 @@ from PIL import Image
 import os
 import utils
 from Player import Player
+import model.team_evaluator as team_evaluator
 
 class TeamSummary(ctk.CTkFrame):
 
@@ -22,8 +23,25 @@ class TeamSummary(ctk.CTkFrame):
         big_frame = ctk.CTkFrame(self, fg_color="transparent")
         big_frame.pack(anchor = "center", padx = 0, pady = 0)
 
-        label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-        label.pack(pady=(5,0), anchor = "w", padx = 0)
+        # label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
+        # label.pack(pady=(5,0), anchor = "w", padx = 0)
+
+        if len(self.master.team) >= 8:
+            print("called")
+            estimator = team_evaluator.Team_Estimator()
+        
+            #Convert the team to a DataFrame for prediction
+            team_data = utils.team_to_dataframe(self.master.team)
+        
+            win_probability = estimator.predict_score(team_data)[0]
+        
+            win_percentage = round(win_probability * 100, 2)
+        
+            label = ctk.CTkLabel(big_frame, text="Estimated Win %: " + str(win_percentage) + "%", font=("Arial", 40, "bold"))
+            label.pack(pady=(5,0), anchor = "w", padx = 0)
+        else:
+            label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
+            label.pack(pady=(5,0), anchor = "w", padx = 0)
 
         self.player_count = ctk.CTkLabel(big_frame, text="Players: " + str(len(self.master.team)) + "/15", font=("Arial", 40, "bold"))
         self.player_count.pack(pady=(5, 0), anchor="w", padx=0)

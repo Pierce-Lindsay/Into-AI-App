@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import make_scorer, matthews_corrcoef
-import models
+import model.models as models
 import joblib
 
 def average_zero_vals(df):
