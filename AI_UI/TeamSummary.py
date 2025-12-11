@@ -23,25 +23,8 @@ class TeamSummary(ctk.CTkFrame):
         big_frame = ctk.CTkFrame(self, fg_color="transparent")
         big_frame.pack(anchor = "center", padx = 0, pady = 0)
 
-        # label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-        # label.pack(pady=(5,0), anchor = "w", padx = 0)
-
-        if len(self.master.team) >= 8:
-            print("called")
-            estimator = team_evaluator.Team_Estimator()
-        
-            #Convert the team to a DataFrame for prediction
-            team_data = utils.team_to_dataframe(self.master.team)
-        
-            win_probability = estimator.predict_score(team_data)[0]
-        
-            win_percentage = round(win_probability * 100, 2)
-        
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: " + str(win_percentage) + "%", font=("Arial", 40, "bold"))
-            label.pack(pady=(5,0), anchor = "w", padx = 0)
-        else:
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-            label.pack(pady=(5,0), anchor = "w", padx = 0)
+        label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
+        label.pack(pady=(5,0), anchor = "w", padx = 0)
 
         self.player_count = ctk.CTkLabel(big_frame, text="Players: " + str(len(self.master.team)) + "/15", font=("Arial", 40, "bold"))
         self.player_count.pack(pady=(5, 0), anchor="w", padx=0)
@@ -62,6 +45,13 @@ class TeamSummary(ctk.CTkFrame):
                                             border_color="black", border_width=5, corner_radius=0,
                                             command=master.show_page1, width=130, height=60)
         add_player_button.pack(padx=(0,0), pady=10, anchor="e")
+
+        #A button to predict the win percentage of the current team
+        predict_button = ctk.CTkButton(self.scroll_frame, text="Predict Win %", font=("Arial", 20), fg_color="#000090",
+                                       border_color="black", border_width=5, corner_radius=0,
+                                       command=lambda big_frame=big_frame: self.predict_win_percentage(big_frame),
+                                       width=180, height=60)
+        predict_button.pack(padx=(0, 0), pady=(0, 20), anchor="e")
 
     def add_player_box(self, player):
         """ Used to add a box containing the player's information to the page """
@@ -125,3 +115,23 @@ class TeamSummary(ctk.CTkFrame):
 
         #Remove the player's box
         box.destroy()
+
+    def predict_win_percentage(self, big_frame):
+        """ Used to predict the win percentage of the current team """
+
+        if len(self.master.team) >= 8:
+            print("called")
+            estimator = team_evaluator.Team_Estimator()
+        
+            #Convert the team to a DataFrame for prediction
+            team_data = utils.team_to_dataframe(self.master.team)
+        
+            win_probability = estimator.predict_score(team_data)[0]
+        
+            win_percentage = round(win_probability * 100, 2)
+        
+            label = ctk.CTkLabel(big_frame, text="Estimated Win %: " + str(win_percentage) + "%", font=("Arial", 40, "bold"))
+            label.pack(pady=(5,0), anchor = "w", padx = 0)
+        else:
+            label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
+            label.pack(pady=(5,0), anchor = "w", padx = 0)

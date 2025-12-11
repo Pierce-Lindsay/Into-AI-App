@@ -1,3 +1,4 @@
+from pathlib import Path
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -11,7 +12,16 @@ def update_best_model(model_save_path = "best_model.joblib"):
     RANDOM_STATE = 1
     TRAIN_SIZE = 0.8
     print("reading in csv...")
-    data_frame = pd.read_csv("data/player_stats_per_game.csv")
+    # resolve CSV path relative to repository root (one level up from /model/)
+    # resolve CSV path relative to repository root (one level up from /model/)
+    repo_root = Path(__file__).resolve().parents[1]
+    data_file = repo_root / "data" / "player_stats_per_game.csv"
+    if not data_file.is_file():
+        raise FileNotFoundError(
+            f"Data file not found at {data_file}\n"
+            "Ensure 'player_stats_per_game.csv' exists in the repo 'data/' folder or run the app from the repo root."
+        )
+    data_frame = pd.read_csv(data_file)
     #clean up zero or NAN columns
     print("cleaning csv...")
     data_frame = data_frame.drop(data_frame.columns[0], axis = 1)
