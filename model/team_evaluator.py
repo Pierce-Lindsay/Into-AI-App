@@ -6,7 +6,8 @@ class Team_Estimator:
         from pathlib import Path
         if Path(MODEL_SAVE_PATH).is_file() is not True:
             print("model not found, training best model...")
-            model_experiments.update_best_model(MODEL_SAVE_PATH)
+            #model_experiments.update_best_model(MODEL_SAVE_PATH)
+            model_experiments.full_train_best_known(MODEL_SAVE_PATH)
             
         print("Loading best trained model...")
         self.model = joblib.load(MODEL_SAVE_PATH)
