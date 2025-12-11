@@ -5,13 +5,7 @@ from sklearn.metrics import make_scorer, matthews_corrcoef
 import models
 import joblib
 
-def average_zero_vals(df):
-    num_cols = df.select_dtypes(include="number").columns
-    column_means = df[num_cols].replace(0, np.nan).mean()
-    df[num_cols] = df[num_cols].replace(0, np.nan).fillna(column_means)
-    return df
-
-def update_best_model(model_save_path = "data/best_model.joblib"):
+def update_best_model(model_save_path = "best_model.joblib"):
     EXPER_SIZE = 0.01
     EXPERIMENTING = True
     RANDOM_STATE = 1
@@ -21,11 +15,9 @@ def update_best_model(model_save_path = "data/best_model.joblib"):
     #clean up zero or NAN columns
     print("cleaning csv...")
     data_frame = data_frame.drop(data_frame.columns[0], axis = 1)
-    data_frame = data_frame[(data_frame.fillna(0) != 0).any(axis=1)]
 
     Y = np.array(data_frame["GAME_WON"]) # grab labels
     data_frame = data_frame.drop(["GAME_WON"], axis= 1)
-    data_frame = average_zero_vals(data_frame)
     #average 0 values in columns later???? must be missing values, how can be 0???
     X = pd.DataFrame(data_frame)
 
