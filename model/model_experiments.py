@@ -7,7 +7,7 @@ from sklearn.metrics import (roc_curve, auc,
                              confusion_matrix, ConfusionMatrixDisplay)
 from sklearn.calibration import calibration_curve
 import matplotlib.pyplot as plt
-import models
+import model.models as models
 import joblib
 
 def update_best_model(model_save_path = "best_model.joblib"):

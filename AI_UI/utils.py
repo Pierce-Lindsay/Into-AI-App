@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 import os
+import pandas as pd
 
 def load_player_image(path, width, height):
 
@@ -15,11 +16,8 @@ def load_player_image(path, width, height):
 
 
 def team_to_dataframe(team):
-    import pandas as pd
-
     data = {
-        "weight": [],
-        "age": []
+        
     }
 
     for player in team:

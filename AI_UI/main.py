@@ -5,11 +5,14 @@ from PlayerProfile import PlayerProfile
 from TeamSummary import TeamSummary
 import pandas as pd
 from Player import Player
+from model import team_evaluator
 
 class App(ctk.CTk):
 
     all_players: list[Player] = []
     team: list[Player] = []
+    estimator = team_evaluator.Team_Estimator()
+    player_stats_df = pd.read_csv("data/player_stats_per_player.csv")
 
     def __init__(self):
         super().__init__()

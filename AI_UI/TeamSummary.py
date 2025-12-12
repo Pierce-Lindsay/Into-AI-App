@@ -121,12 +121,11 @@ class TeamSummary(ctk.CTkFrame):
 
         if len(self.master.team) >= 8:
             print("called")
-            estimator = team_evaluator.Team_Estimator()
         
             #Convert the team to a DataFrame for prediction
             team_data = utils.team_to_dataframe(self.master.team)
         
-            win_probability = estimator.predict_score(team_data)[0]
+            win_probability = self.master.estimator.predict_score(team_data)[0]
         
             win_percentage = round(win_probability * 100, 2)
         
