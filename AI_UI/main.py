@@ -5,8 +5,13 @@ from PlayerProfile import PlayerProfile
 from TeamSummary import TeamSummary
 import pandas as pd
 from Player import Player
+from model import team_evaluator
 
 class App(ctk.CTk):
+
+    all_players: list[Player] = []
+    team: list[Player] = []
+    estimator = team_evaluator.Team_Estimator()
 
     def __init__(self):
         super().__init__()
@@ -18,31 +23,71 @@ class App(ctk.CTk):
         #Stores the user's current team
         self.team = []
 
-        df = pd.read_csv("common_player_info.csv")
+        # The maximum size of a team (may be decreased depending on the model)
+        self.MAX_TEAM_SIZE = 8
 
-        df = df[df["to_year"] >= 2004]
+        player_stats_df = pd.read_csv("data/player_stats_per_player.csv")
 
-        df["birthdate"] = pd.to_datetime(df["birthdate"])
+        #df = df[df["to_year"] >= 2004]
 
-        today = pd.Timestamp.today()
+        #df["birthdate"] = pd.to_datetime(df["birthdate"])
 
-        df["age"] = (today - df["birthdate"]).dt.days // 365
+        #today = pd.Timestamp.today()
 
-        df = df[["display_first_last", "weight", "height", "age"]]
+        #df["age"] = (today - df["birthdate"]).dt.days // 365
+
+        #df = df[["display_first_last", "weight", "height", "age"]]
 
         #For each row, create a new player and add it to all_players
-        for index, row in df.iterrows():
-            name = row["display_first_last"]
-            weight = row["weight"]
-            height = row["height"]
-            age = row["age"]
+        for index, row in player_stats_df.iterrows():
+            player_name = row["PLAYER_NAME"]
+            fgm = row["FGM"]
+            fga = row["FGA"]
+            fg_pct = row["FG_PCT"]
+            fg3m = row["FG3M"]
+            fg3a = row["FG3A"]
+            fg3_pct = row["FG3_PCT"]
+            ftm = row["FTM"]
+            fta = row["FTA"]
+            ft_pct = row["FT_PCT"]
+            oreb = row["OREB"]
+            dreb = row["DREB"]
+            reb = row["REB"]
+            ast = row["AST"]
+            stl = row["STL"]
+            blk = row["BLK"]
+            to = row["TO"]
+            pf = row["PF"]
+            pts = row["PTS"]
+            plus_minus = row["PLUS_MINUS"]
+            player_id = row["PLAYER_ID"]
+            #weight = row["weight"]
+            #height = row["height"]
+            #age = row["age"]
 
             player = Player(
-                name=name,
-                weight=weight,
-                height=height,
-                age=age,
-                image_path="AI_UI_NBA_Player_Images_67/" + name + ".png"
+                player_name = player_name,
+                fgm = fgm,
+                fga = fga,
+                fg_pct = fg_pct,
+                fg3m = fg3m,
+                fg3a = fg3a,
+                fg3_pct = fg3_pct,
+                ftm = ftm,
+                fta = fta,
+                ft_pct = ft_pct,
+                oreb = oreb,
+                dreb = dreb,
+                reb = reb,
+                ast = ast,
+                stl = stl,
+                blk = blk,
+                to = to,
+                pf = pf,
+                pts = pts,
+                plus_minus = plus_minus,
+                player_id = player_id,
+                image_path="AI_UI/AI_UI_NBA_Player_Images_67/" + player_name + ".png"
             )
 
             self.all_players.append(player)
