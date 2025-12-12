@@ -27,85 +27,98 @@ class PlayerProfile(ctk.CTkFrame):
         info_holder.pack(anchor = "w", padx=0, pady=0)
 
         #The box which holds the player image
-        box_frame = ctk.CTkFrame(info_holder, fg_color="#D0D0D0", border_color="black", border_width=5, corner_radius=0, width = 360, height = 264)
+        box_frame = ctk.CTkFrame(info_holder, fg_color="#D0D0D0", border_color="black", border_width=5, corner_radius=0, width = 540, height = 391)
         box_frame.pack(side = "left", padx=20, pady=0)
         box_frame.pack_propagate(False)
 
         #NOTE: Info defaults to info for LeBron James but will be overridden when the user actually views the stats for a player
         player_path = "AI_UI_NBA_Player_Images_67/Lebron James.png"
-        self.player_label = ctk.CTkLabel(box_frame, image=utils.load_player_image(player_path, 350, 254), text = "")
+        self.player_label = ctk.CTkLabel(box_frame, image=utils.load_player_image(player_path, 525, 381), text = "")
         self.player_label.pack(side = "left", padx=5, pady=5)
 
         player_info_frame = ctk.CTkFrame(info_holder, fg_color="transparent", border_color="black", border_width=0,
-                                         corner_radius=0, width=1000, height=800)
+                                         corner_radius=0, width=500, height=2000)
         player_info_frame.pack(side="left", padx=20, pady=20)
         player_info_frame.pack_propagate(False)
 
-        #self.player_age = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="Age: 40", font=("Arial", 20))
-        #self.player_age.pack(anchor="w")
+        field_goal_frame = ctk.CTkFrame(player_info_frame, fg_color="#FF7777", border_color="black", border_width=5, corner_radius=0,
+                                 width=460, height=180)
+        field_goal_frame.pack(padx=20, pady=5)
+        field_goal_frame.pack_propagate(False)
 
-        #self.player_height = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="Height: 6\'9\"", font=("Arial", 20))
-        #self.player_height.pack(anchor="w")
+        self.player_fgm = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fgm.pack(pady = (5, 0), padx = (10, 0), anchor="w")
 
-        #self.player_weight = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="Weight: 250 lbs", font=("Arial", 20))
-        #self.player_weight.pack(anchor="w")
+        self.player_fga = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fga.pack(padx = (10, 0), anchor="w")
 
-        self.player_fgm = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fgm.pack(anchor="w")
+        self.player_fg_pct = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fg_pct.pack(padx = (10, 0), anchor="w")
 
-        self.player_fga = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fga.pack(anchor="w")
+        self.player_fg3m = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fg3m.pack(padx = (10, 0), anchor="w")
 
-        self.player_fg_pct = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fg_pct.pack(anchor="w")
+        self.player_fg3a = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fg3a.pack(padx = (10, 0), anchor="w")
 
-        self.player_fg3m = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fg3m.pack(anchor="w")
+        self.player_fg3_pct = ctk.CTkLabel(field_goal_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fg3_pct.pack(padx = (10, 0), anchor="w")
 
-        self.player_fg3a = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fg3a.pack(anchor="w")
+        free_throw_frame = ctk.CTkFrame(player_info_frame, fg_color="#77FF77", border_color="black", border_width=5, corner_radius=0,
+                                 width=490, height=95)
+        free_throw_frame.pack(padx=20, pady=5)
+        free_throw_frame.pack_propagate(False)
 
-        self.player_fg3_pct = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fg3_pct.pack(anchor="w")
+        self.player_ftm = ctk.CTkLabel(free_throw_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_ftm.pack(pady = (5,0), padx = (10, 0), anchor="w")
 
-        self.player_ftm = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_ftm.pack(anchor="w")
+        self.player_fta = ctk.CTkLabel(free_throw_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_fta.pack(padx = (10, 0), anchor="w")
 
-        self.player_fta = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_fta.pack(anchor="w")
+        self.player_ft_pct = ctk.CTkLabel(free_throw_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_ft_pct.pack(padx = (10, 0), anchor="w")
 
-        self.player_ft_pct = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_ft_pct.pack(anchor="w")
+        rebound_frame = ctk.CTkFrame(player_info_frame, fg_color="#7777FF", border_color="black", border_width=5,
+                                        corner_radius=0,
+                                        width=490, height=95)
+        rebound_frame.pack(padx=20, pady=5)
+        rebound_frame.pack_propagate(False)
 
-        self.player_oreb = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_oreb.pack(anchor="w")
+        self.player_oreb = ctk.CTkLabel(rebound_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_oreb.pack(pady = (5, 0), padx = (10, 0), anchor="w")
 
-        self.player_dreb = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_dreb.pack(anchor="w")
+        self.player_dreb = ctk.CTkLabel(rebound_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_dreb.pack(padx = (10, 0), anchor="w")
 
-        self.player_reb = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_reb.pack(anchor="w")
+        self.player_reb = ctk.CTkLabel(rebound_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_reb.pack(padx = (10, 0), anchor="w")
 
-        self.player_ast = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_ast.pack(anchor="w")
+        other_frame = ctk.CTkFrame(player_info_frame, fg_color="#FFFF77", border_color="black", border_width=5,
+                                     corner_radius=0,
+                                     width=490, height=206)
+        other_frame.pack(padx=20, pady=5)
+        other_frame.pack_propagate(False)
 
-        self.player_stl = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_stl.pack(anchor="w")
+        self.player_ast = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_ast.pack(padx = (10, 0), pady = (5, 0), anchor="w")
 
-        self.player_blk = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_blk.pack(anchor="w")
+        self.player_stl = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_stl.pack(padx = (10, 0), anchor="w")
 
-        self.player_to = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_to.pack(anchor="w")
+        self.player_blk = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_blk.pack(padx = (10, 0), anchor="w")
 
-        self.player_pf = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_pf.pack(anchor="w")
+        self.player_to = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_to.pack(padx = (10, 0), anchor="w")
 
-        self.player_pts = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_pts.pack(anchor="w")
+        self.player_pf = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_pf.pack(padx = (10, 0), anchor="w")
 
-        self.player_plus_minus = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="", font=("Arial", 20))
-        self.player_plus_minus.pack(anchor="w")
+        self.player_pts = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_pts.pack(padx = (10, 0), anchor="w")
+
+        self.player_plus_minus = ctk.CTkLabel(other_frame, fg_color="transparent", text="", font=("Arial", 20))
+        self.player_plus_minus.pack(padx = (10, 0), anchor="w")
 
     def set_incoming_page(self, incoming_page):
         self.incoming_page = incoming_page
@@ -125,7 +138,7 @@ class PlayerProfile(ctk.CTkFrame):
         self.player_ft_pct.configure(text = f"Free Throw Percentage: {round(100 * player.ft_pct, 2)}%")
         self.player_oreb.configure(text = f"Offensive Rebounds: {round(player.oreb, 2)}")
         self.player_dreb.configure(text = f"Defensive Rebounds: {round(player.dreb, 2)}")
-        self.player_reb.configure(text = f"Rebounds: {round(player.reb, 2)}")
+        self.player_reb.configure(text = f"Total Rebounds: {round(player.reb, 2)}")
         self.player_ast.configure(text = f"Assists: {round(player.ast, 2)}")
         self.player_stl.configure(text = f"Steals: {round(player.stl, 2)}")
         self.player_blk.configure(text = f"Blocks: {round(player.blk, 2)}")
@@ -135,24 +148,7 @@ class PlayerProfile(ctk.CTkFrame):
         self.player_plus_minus.configure(text = f"Plus-minus: {round(player.plus_minus, 2)}")
 
 
-
-
-        #self.player_age.configure(text=f"Age: {player.age}")
-
-        #If the height or weight are illegitimate, just list them as Unknown
-        """
-        if player.height_ft <= -1:
-            self.player_height.configure(text="Height: Unknown")
-        else:
-            self.player_height.configure(text=f"Height: {player.height_ft}\'{player.height_inch}\"")
-
-        if player.weight <= -1:
-            self.player_weight.configure(text="Weight: Unknown")
-        else:
-            self.player_weight.configure(text=f"Weight: {player.weight}")
-        """
-
-        self.player_label.configure(image=utils.load_player_image(player.image_path, 350, 254))
+        self.player_label.configure(image=utils.load_player_image(player.image_path, 525, 381))
 
     def go_back(self):
         """ Used to return to the previous page. This might be either the Team Summary page or the Add Player page """
