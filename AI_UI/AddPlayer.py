@@ -11,7 +11,7 @@ class AddPlayer(ctk.CTkFrame):
         self.pack(fill="both", expand=True)
 
         #The number of potential players being displayed on screen at a time
-        self.players_per_page = 15
+        self.players_per_page = 8
 
         #Keeps track of which specific players are currently being displayed
         self.page_index = 0
@@ -19,15 +19,46 @@ class AddPlayer(ctk.CTkFrame):
         #A list of players to display after all filters have been applied
         self.filtered_players = self.master.all_players.copy()
 
-        #The bounds on the filters applied for age, weight, and height
-        self.age_lower_bound = 0
-        self.age_upper_bound = 99
+        #The bounds on the filters applied
+        self.fgm_lower_bound = 0
 
-        self.weight_lower_bound = 0
-        self.weight_upper_bound = 500
+        self.fga_lower_bound = 0
 
-        self.height_lower_bound = 0
-        self.height_upper_bound = 108
+        self.fg_pct_lower_bound = 0
+
+        self.fg3m_lower_bound = 0
+
+        self.fg3a_lower_bound = 0
+
+        self.fg3_pct_lower_bound = 0
+
+        self.ftm_lower_bound = 0
+
+        self.fta_lower_bound = 0
+
+        self.ft_pct_lower_bound = 0
+
+        self.oreb_lower_bound = 0
+
+        self.dreb_lower_bound = 0
+
+        self.reb_lower_bound = 0
+
+        self.ast_lower_bound = 0
+
+        self.stl_lower_bound = 0
+
+        self.blk_lower_bound = 0
+
+        self.to_upper_bound = 100
+
+        self.pf_upper_bound = 100
+
+        self.pts_lower_bound = 0
+
+        self.plus_minus_lower_bound = -100
+
+
 
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("green")
@@ -37,14 +68,17 @@ class AddPlayer(ctk.CTkFrame):
                                             command=master.show_page3, width=130, height=60)
         back_to_team_button.pack(padx=(5,0), pady=(5,0), anchor="w")
 
-        big_frame = ctk.CTkFrame(self, fg_color="transparent", height = 3000)
-        big_frame.pack(anchor = "center", padx = 0, pady = 0)
+        self.scroll_frame = ctk.CTkScrollableFrame(self, width=900, height=600)
+        self.scroll_frame.pack(fill="both", expand=True)
 
-        label = ctk.CTkLabel(big_frame, text="ADD PLAYER", font=("Arial", 40, "bold"))
+        self.big_frame = ctk.CTkFrame(self.scroll_frame, fg_color="transparent", height = 3000)
+        self.big_frame.pack(anchor = "center", padx = 0, pady = 0)
+
+        label = ctk.CTkLabel(self.big_frame, text="ADD PLAYER", font=("Arial", 40, "bold"))
         label.pack(pady=(5,0), anchor = "w", padx = 0)
 
         #A row to hold the search bar and filters button
-        search_row = ctk.CTkFrame(big_frame, fg_color = "transparent")
+        search_row = ctk.CTkFrame(self.big_frame, fg_color = "transparent")
         search_row.pack(padx=(0,0), pady=(5,0), anchor = "center")
 
         #A search bar for the player to search for a specific player name
@@ -57,115 +91,349 @@ class AddPlayer(ctk.CTkFrame):
         self.filter_button = ctk.CTkButton(search_row, text="Add Filters", font = ("Arial", 20), border_color = "black", border_width = 5, corner_radius = 0, command=self.add_filters, width = 150, height = 30, fg_color = "#777777")
         self.filter_button.pack(side = "left", pady=0)
 
-        #Contains the filters for age, height, and weight
-        self.filter_container = ctk.CTkFrame(big_frame, fg_color="transparent", height = 0)
+        #Contains the filters
+        self.filter_container = ctk.CTkFrame(self.big_frame, fg_color="transparent", height = 0)
         self.filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
 
         #These filters are not displayed until the user hits the "Add Filters" button
-        self.age_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
-        self.height_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height=0)
-        self.weight_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height=0)
 
-        #A scrollable frame so the user can scroll through potential players
-        self.scroll_frame = ctk.CTkScrollableFrame(big_frame, width=800, height=2000)
-        self.scroll_frame.pack(fill="both", expand=True, padx=20, pady=(20,0))
+        self.fgm_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fga_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fg_pct_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fg3m_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fg3a_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fg3_pct_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.ftm_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.fta_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.ft_pct_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.oreb_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.dreb_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.reb_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.ast_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.stl_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.blk_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.to_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+        self.pf_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+        self.pts_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+        self.plus_minus_filter_container = ctk.CTkFrame(self.filter_container, fg_color="transparent", height = 0)
+
+
 
         #The spaces for the user to enter the upper and lower bounds for each filter
-        self.age_filter_entry_lower_bound = ctk.CTkEntry(self.age_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
+
+
+        #Field Goals Made
+
+        self.fgm_filter_entry_lower_bound = ctk.CTkEntry(self.fgm_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
                                                          height=20, border_color="black", border_width=3, corner_radius=0)
 
-        self.age_filter_entry_upper_bound = ctk.CTkEntry(self.age_filter_container, font=("Arial", 20), width=40, placeholder_text="99",
-                                                    height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.height_filter_entry_lower_bound_ft = ctk.CTkEntry(self.height_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
-                                                    height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.height_filter_entry_lower_bound_in = ctk.CTkEntry(self.height_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
-                                                          height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.height_filter_entry_upper_bound_ft = ctk.CTkEntry(self.height_filter_container, font=("Arial", 20), width=40, placeholder_text="9",
-                                                    height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.height_filter_entry_upper_bound_in = ctk.CTkEntry(self.height_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
-                                                          height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.weight_filter_entry_lower_bound = ctk.CTkEntry(self.weight_filter_container, font=("Arial", 20), width=60, placeholder_text="0",
-                                                       height=20, border_color="black", border_width=3, corner_radius=0)
-
-        self.weight_filter_entry_upper_bound = ctk.CTkEntry(self.weight_filter_container, font=("Arial", 20), width=60, placeholder_text="500",
-                                                       height=20, border_color="black", border_width=3, corner_radius=0)
-
-        age_filter_label = ctk.CTkLabel(self.age_filter_container, text="AGE: Between ", font=("Arial", 20, "bold"),
+        fgm_filter_label = ctk.CTkLabel(self.fgm_filter_container, text="Field Goals Made: At Least ", font=("Arial", 20, "bold"),
                                         text_color="black")
-        age_filter_label.pack(pady=(0, 0), side="left", padx=0)
+        fgm_filter_label.pack(pady=(0, 0), side="left", padx=0)
 
-        self.age_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+        self.fgm_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
 
-        age_filter_label_2 = ctk.CTkLabel(self.age_filter_container, text=" and ", font=("Arial", 20, "bold"),
-                                          text_color="black")
-        age_filter_label_2.pack(pady=(0, 0), side="left", padx=0)
 
-        self.age_filter_entry_upper_bound.pack(side="left", padx=5, pady=0)
+        #Field Goals Attempted
 
-        height_filter_label = ctk.CTkLabel(self.height_filter_container, text="HEIGHT: Between ",
-                                           font=("Arial", 20, "bold"),
-                                           text_color="black")
-        height_filter_label.pack(pady=(0, 0), side="left", padx=0)
+        self.fga_filter_entry_lower_bound = ctk.CTkEntry(self.fga_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3, corner_radius=0)
 
-        self.height_filter_entry_lower_bound_ft.pack(side="left", padx=1, pady=0)
+        fga_filter_label = ctk.CTkLabel(self.fga_filter_container, text="Field Goals Attempted: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fga_filter_label.pack(pady=(0, 0), side="left", padx=0)
 
-        height_filter_label_2 = ctk.CTkLabel(self.height_filter_container, text="\'",
-                                             font=("Arial", 20, "bold"),
-                                             text_color="black")
-        height_filter_label_2.pack(pady=(0, 0), side="left", padx=0)
+        self.fga_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
 
-        self.height_filter_entry_lower_bound_in.pack(side="left", padx=1, pady=0)
+        #Field Goal Percentage
 
-        height_filter_label_3 = ctk.CTkLabel(self.height_filter_container, text="\" and ", font=("Arial", 20, "bold"),
-                                             text_color="black")
-        height_filter_label_3.pack(pady=(0, 0), side="left", padx=0)
+        self.fg_pct_filter_entry_lower_bound = ctk.CTkEntry(self.fg_pct_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3, corner_radius=0)
 
-        self.height_filter_entry_upper_bound_ft.pack(side="left", padx=1, pady=0)
+        fg_pct_filter_label = ctk.CTkLabel(self.fg_pct_filter_container, text="Field Goal Percentage: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fg_pct_filter_label.pack(pady=(0, 0), side="left", padx=0)
 
-        height_filter_label_4 = ctk.CTkLabel(self.height_filter_container, text="\'", font=("Arial", 20, "bold"),
-                                             text_color="black")
-        height_filter_label_4.pack(pady=(0, 0), side="left", padx=0)
+        self.fg_pct_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
 
-        self.height_filter_entry_upper_bound_in.pack(side="left", padx=1, pady=0)
 
-        height_filter_label_5 = ctk.CTkLabel(self.height_filter_container, text="\"", font=("Arial", 20, "bold"),
-                                             text_color="black")
-        height_filter_label_5.pack(pady=(0, 0), side="left", padx=0)
 
-        weight_filter_label = ctk.CTkLabel(self.weight_filter_container, text="WEIGHT: Between ",
-                                           font=("Arial", 20, "bold"),
-                                           text_color="black")
-        weight_filter_label.pack(pady=(0, 0), side="left", padx=0)
+        #Field Goals Made from 3 Point Line
 
-        self.weight_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+        self.fg3m_filter_entry_lower_bound = ctk.CTkEntry(self.fg3m_filter_container, font=("Arial", 20), width=40, placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3, corner_radius=0)
 
-        weight_filter_label_2 = ctk.CTkLabel(self.weight_filter_container, text="lbs and ", font=("Arial", 20, "bold"),
-                                             text_color="black")
-        weight_filter_label_2.pack(pady=(0, 0), side="left", padx=0)
+        fg3m_filter_label = ctk.CTkLabel(self.fg3m_filter_container, text="Field Goals Made from 3 Point Line: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fg3m_filter_label.pack(pady=(0, 0), side="left", padx=0)
 
-        self.weight_filter_entry_upper_bound.pack(side="left", padx=5, pady=0)
+        self.fg3m_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
 
-        weight_filter_label_3 = ctk.CTkLabel(self.weight_filter_container, text="lbs", font=("Arial", 20, "bold"),
-                                             text_color="black")
-        weight_filter_label_3.pack(pady=(0, 0), side="left", padx=0)
+        #Field Goals Attempted from 3 point line
+
+        self.fg3a_filter_entry_lower_bound = ctk.CTkEntry(self.fg3a_filter_container, font=("Arial", 20), width=40,
+                                                            placeholder_text="0",
+                                                            height=20, border_color="black", border_width=3,
+                                                            corner_radius=0)
+
+        fg3a_filter_label = ctk.CTkLabel(self.fg3a_filter_container, text="Field Goals Attempted from 3 Point Line: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fg3a_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.fg3a_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Field Goal from 3 Point Line Percentage
+
+        self.fg3_pct_filter_entry_lower_bound = ctk.CTkEntry(self.fg3_pct_filter_container, font=("Arial", 20), width=40,
+                                                            placeholder_text="0",
+                                                            height=20, border_color="black", border_width=3,
+                                                            corner_radius=0)
+
+        fg3_pct_filter_label = ctk.CTkLabel(self.fg3_pct_filter_container, text="Field Goal Percentage from 3 Point Line: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fg3_pct_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.fg3_pct_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Free Throws Made
+
+
+        self.ftm_filter_entry_lower_bound = ctk.CTkEntry(self.ftm_filter_container, font=("Arial", 20), width=40,
+                                                            placeholder_text="0",
+                                                            height=20, border_color="black", border_width=3,
+                                                            corner_radius=0)
+
+        ftm_filter_label = ctk.CTkLabel(self.ftm_filter_container, text="Free Throws Made: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        ftm_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.ftm_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Free Throws Attempted
+
+        self.fta_filter_entry_lower_bound = ctk.CTkEntry(self.fta_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+        fta_filter_label = ctk.CTkLabel(self.fta_filter_container, text="Free Throws Attempted: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        fta_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.fta_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Free Throw Percentage
+
+        self.ft_pct_filter_entry_lower_bound = ctk.CTkEntry(self.ft_pct_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+        ft_pct_filter_label = ctk.CTkLabel(self.ft_pct_filter_container, text="Free Throw Percentage: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        ft_pct_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.ft_pct_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Offensive Rebounds
+
+        self.oreb_filter_entry_lower_bound = ctk.CTkEntry(self.oreb_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+        oreb_filter_label = ctk.CTkLabel(self.oreb_filter_container, text="Offensive Rebounds: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        oreb_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.oreb_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Defensive Rebounds
+
+        self.dreb_filter_entry_lower_bound = ctk.CTkEntry(self.dreb_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+
+        dreb_filter_label = ctk.CTkLabel(self.dreb_filter_container, text="Defensive Rebounds: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        dreb_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.dreb_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Rebounds
+
+        self.reb_filter_entry_lower_bound = ctk.CTkEntry(self.reb_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+
+        reb_filter_label = ctk.CTkLabel(self.reb_filter_container, text="Rebounds: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        reb_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.reb_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Assists
+
+        self.ast_filter_entry_lower_bound = ctk.CTkEntry(self.ast_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+        ast_filter_label = ctk.CTkLabel(self.ast_filter_container, text="Assists: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        ast_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.ast_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+        #Steals
+
+        self.stl_filter_entry_lower_bound = ctk.CTkEntry(self.stl_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+        stl_filter_label = ctk.CTkLabel(self.stl_filter_container, text="Steals: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        stl_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.stl_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+
+        #Blocks
+
+        self.blk_filter_entry_lower_bound = ctk.CTkEntry(self.blk_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+
+        blk_filter_label = ctk.CTkLabel(self.blk_filter_container, text="Blocks: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        blk_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.blk_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+
+
+        #Turnovers
+
+
+
+        self.to_filter_entry_upper_bound = ctk.CTkEntry(self.to_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="100",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+        to_filter_label = ctk.CTkLabel(self.to_filter_container, text="Turnovers: No More Than ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        to_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.to_filter_entry_upper_bound.pack(side="left", padx=5, pady=0)
+
+
+        #Personal Fouls
+
+
+
+        self.pf_filter_entry_upper_bound = ctk.CTkEntry(self.pf_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="100",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+        pf_filter_label = ctk.CTkLabel(self.pf_filter_container, text="Personal Fouls: No More Than ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        pf_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.pf_filter_entry_upper_bound.pack(side="left", padx=5, pady=0)
+
+
+        #Points
+
+        self.pts_filter_entry_lower_bound = ctk.CTkEntry(self.pts_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+
+        pts_filter_label = ctk.CTkLabel(self.pts_filter_container, text="Points: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        pts_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.pts_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+
+
+        #Plus Minus
+
+        self.plus_minus_filter_entry_lower_bound = ctk.CTkEntry(self.plus_minus_filter_container, font=("Arial", 20), width=40,
+                                                         placeholder_text="0",
+                                                         height=20, border_color="black", border_width=3,
+                                                         corner_radius=0)
+
+
+
+
+        plus_minus_filter_label = ctk.CTkLabel(self.plus_minus_filter_container, text="Plus-minus: At Least ", font=("Arial", 20, "bold"),
+                                        text_color="black")
+        plus_minus_filter_label.pack(pady=(0, 0), side="left", padx=0)
+
+        self.plus_minus_filter_entry_lower_bound.pack(side="left", padx=5, pady=0)
+
+
 
         #The button for the user to apply their filters
-        apply_button = ctk.CTkButton(self.weight_filter_container, text="Apply Filters", font=("Arial", 20),
+        apply_button = ctk.CTkButton(self.plus_minus_filter_container, text="Apply Filters", font=("Arial", 20),
                                      border_width=5, corner_radius=0, command=self.apply_button,
                                      border_color="black")
         apply_button.pack(padx=20)
 
+
+        self.players_holder = ctk.CTkFrame(self.big_frame, fg_color="transparent", height=3000)
+        self.players_holder.pack(anchor="center", padx=0, pady=0)
+
         #Create boxes to display players
+
+
         for player in self.master.all_players[:self.players_per_page]:
 
             self.add_player_box(
                 player = player
             )
+            
+
 
     def add_filters(self):
         """ Display the available filters to the user """
@@ -173,26 +441,94 @@ class AddPlayer(ctk.CTkFrame):
         #Convert the "Add Filter" button into a "Remove Filter" button
         self.filter_button.configure(text = "Remove Filters", command = self.remove_filters, fg_color = "red")
 
-        self.age_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
-        self.height_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
-        self.weight_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fgm_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fga_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fg_pct_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fg3m_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fg3a_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fg3_pct_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.ftm_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.fta_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.ft_pct_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.oreb_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.dreb_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.reb_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.ast_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.stl_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.blk_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.to_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.pf_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.pts_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+        self.plus_minus_filter_container.pack(padx=(0, 0), pady=(0, 0), anchor="w")
+
+
 
     def remove_filters(self):
         """ Remove the filters from the screen """
 
-        self.age_filter_container.pack_forget()
-        self.weight_filter_container.pack_forget()
-        self.height_filter_container.pack_forget()
+        self.filter_container.configure(height = 0)
+
+        self.fgm_filter_container.pack_forget()
+        self.fga_filter_container.pack_forget()
+        self.fg_pct_filter_container.pack_forget()
+        self.fg3m_filter_container.pack_forget()
+        self.fg3a_filter_container.pack_forget()
+        self.fg3_pct_filter_container.pack_forget()
+        self.ftm_filter_container.pack_forget()
+        self.fta_filter_container.pack_forget()
+        self.ft_pct_filter_container.pack_forget()
+        self.oreb_filter_container.pack_forget()
+        self.dreb_filter_container.pack_forget()
+        self.reb_filter_container.pack_forget()
+        self.ast_filter_container.pack_forget()
+        self.stl_filter_container.pack_forget()
+        self.blk_filter_container.pack_forget()
+        self.to_filter_container.pack_forget()
+        self.pf_filter_container.pack_forget()
+        self.pts_filter_container.pack_forget()
+        self.plus_minus_filter_container.pack_forget()
+
+
+
 
         #Reset all filter upper and lower bounds
-        self.age_lower_bound = 0
-        self.age_upper_bound = 99
+        self.fgm_lower_bound = 0
 
-        self.weight_lower_bound = 0
-        self.weight_upper_bound = 500
+        self.fga_lower_bound = 0
 
-        self.height_lower_bound = 0
-        self.height_upper_bound = 108
+        self.fg_pct_lower_bound = 0
+
+        self.fg3m_lower_bound = 0
+
+        self.fg3a_lower_bound = 0
+
+        self.fg3_pct_lower_bound = 0
+
+        self.ftm_lower_bound = 0
+
+        self.fta_lower_bound = 0
+
+        self.ft_pct_lower_bound = 0
+
+        self.oreb_lower_bound = 0
+
+        self.dreb_lower_bound = 0
+
+        self.reb_lower_bound = 0
+
+        self.ast_lower_bound = 0
+
+        self.stl_lower_bound = 0
+
+        self.blk_lower_bound = 0
+
+        self.to_upper_bound = 100
+
+        self.pf_upper_bound = 100
+
+        self.pts_lower_bound = 0
+
+        self.plus_minus_lower_bound = -100
 
         #Convert the "Remove Filter" button into an "Add Filter" button
         self.filter_button.configure(text="Add Filters", command=self.add_filters, fg_color = "gray")
@@ -216,7 +552,7 @@ class AddPlayer(ctk.CTkFrame):
     def add_player_box(self, player):
         """ Create a box that displays a player's information """
 
-        box_frame = ctk.CTkFrame(self.scroll_frame, fg_color="#D0D0D0", border_color="black", border_width=5, corner_radius=0,
+        box_frame = ctk.CTkFrame(self.players_holder, fg_color="#D0D0D0", border_color="black", border_width=5, corner_radius=0,
                                  width=800, height=130)
         box_frame.pack(padx=0, pady=(0, 0))
         box_frame.pack_propagate(False)
@@ -230,11 +566,11 @@ class AddPlayer(ctk.CTkFrame):
         player_info_frame.pack(side="left", padx=(20,0), pady=20)
         player_info_frame.pack_propagate(False)
 
-        player_name = ctk.CTkLabel(player_info_frame, fg_color="transparent", text=player.name, font=("Arial", 20))
+        player_name = ctk.CTkLabel(player_info_frame, fg_color="transparent", text=player.player_name, font=("Arial", 20))
         player_name.pack(anchor="w")
 
-        player_age = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="Age: " + str(player.age), font=("Arial", 20))
-        player_age.pack(anchor="w")
+        #player_age = ctk.CTkLabel(player_info_frame, fg_color="transparent", text="Age: " + str(player.age), font=("Arial", 20))
+        #player_age.pack(anchor="w")
 
         stats_button = ctk.CTkButton(box_frame, text="View Stats", font=("Arial", 20), fg_color="#900090",
                                      border_color="black", border_width=5, corner_radius=0, command = lambda player = player, incoming = "Add Player": self.master.view_stats(player, incoming),
@@ -249,13 +585,13 @@ class AddPlayer(ctk.CTkFrame):
 
     def add_to_team(self, player):
         """ Add the player to the user's team """
-        #If the user already has 15 players, stop them from adding the player
-        if (len(self.master.team) >= 15):
+        #If the user already has 8 players, stop them from adding the player
+        if (len(self.master.team) >= self.master.MAX_TEAM_SIZE):
             self.show_popup("Can\'t add that player! Your team is full!", "#FF9999")
         else:
             #Add the player to the team and show a popup to confirm to the user that the player was added
             self.master.page3.add_player(player)
-            self.show_popup(f"Successfully added {player.name}!", "#99FF99")
+            self.show_popup(f"Successfully added {player.player_name}!", "#99FF99")
 
         #Reapply filters because a player already on the team should not appear in the Add Player page
         self.filter_players()
@@ -264,7 +600,7 @@ class AddPlayer(ctk.CTkFrame):
         """ Refresh the players displayed on the page """
 
         #Clear all players currently displayed
-        for box in self.scroll_frame.winfo_children():
+        for box in self.players_holder.winfo_children():
             box.destroy()
 
         #Figure out which players will be shown
@@ -277,7 +613,7 @@ class AddPlayer(ctk.CTkFrame):
             self.add_player_box(player)
 
         #Contains buttons to go to the next or previous set of players
-        buttons_holder = ctk.CTkFrame(self.scroll_frame, fg_color="transparent")
+        buttons_holder = ctk.CTkFrame(self.players_holder, fg_color="transparent")
         buttons_holder.pack(pady=10)
 
         #If the player is past index 0, display a button that allows them to go to the previous page
@@ -295,70 +631,48 @@ class AddPlayer(ctk.CTkFrame):
         """ Apply the user's filters """
 
         #If the user did not specify an upper or lower bound for a certain stat, set a default for it
-        self.age_lower_bound = self.age_filter_entry_lower_bound.get()
 
-        if len(self.age_lower_bound) == 0:
-            self.age_lower_bound = 0
-        else:
-            self.age_lower_bound = int(self.age_lower_bound)
+        self.fgm_lower_bound = int(self.fgm_filter_entry_lower_bound.get() or 0)
 
-        self.age_upper_bound = self.age_filter_entry_upper_bound.get()
+        self.fga_lower_bound = int(self.fga_filter_entry_lower_bound.get() or 0)
 
-        if len(self.age_upper_bound) == 0:
-            self.age_upper_bound = 99
-        else:
-            self.age_upper_bound = int(self.age_upper_bound)
+        self.fg_pct_lower_bound = int(self.fg_pct_filter_entry_lower_bound.get() or 0)
 
-        self.weight_lower_bound = self.weight_filter_entry_lower_bound.get()
+        self.fg3m_lower_bound = int(self.fg3m_filter_entry_lower_bound.get() or 0)
 
-        if len(self.weight_lower_bound) == 0:
-            self.weight_lower_bound = 0
-        else:
-            self.weight_lower_bound = int(self.weight_lower_bound)
+        self.fg3a_lower_bound = int(self.fg3a_filter_entry_lower_bound.get() or 0)
 
-        self.weight_upper_bound = self.weight_filter_entry_upper_bound.get()
+        self.fg3_pct_lower_bound = int(self.fg3_pct_filter_entry_lower_bound.get() or 0)
 
-        if len(self.weight_upper_bound) == 0:
-            self.weight_upper_bound = 500
-        else:
-            self.weight_upper_bound = int(self.weight_upper_bound)
+        self.ftm_lower_bound = int(self.ftm_filter_entry_lower_bound.get() or 0)
 
+        self.fta_lower_bound = int(self.fta_filter_entry_lower_bound.get() or 0)
 
-        height_lower_bound_ft = self.height_filter_entry_lower_bound_ft.get()
+        self.ft_pct_lower_bound = int(self.ft_pct_filter_entry_lower_bound.get() or 0)
 
-        if len(height_lower_bound_ft) == 0:
-            height_lower_bound_ft = 0
-        else:
-            height_lower_bound_ft = int(height_lower_bound_ft)
+        self.oreb_lower_bound = int(self.oreb_filter_entry_lower_bound.get() or 0)
 
-        height_lower_bound_in = self.height_filter_entry_lower_bound_in.get()
+        self.dreb_lower_bound = int(self.dreb_filter_entry_lower_bound.get() or 0)
 
-        if len(height_lower_bound_in) == 0:
-            height_lower_bound_in = 0
-        else:
-            height_lower_bound_in = int(height_lower_bound_in)
+        self.reb_lower_bound = int(self.reb_filter_entry_lower_bound.get() or 0)
 
-        self.height_lower_bound = height_lower_bound_ft * 12 + height_lower_bound_in
+        self.ast_lower_bound = int(self.ast_filter_entry_lower_bound.get() or 0)
 
-        height_upper_bound_ft = self.height_filter_entry_upper_bound_ft.get()
+        self.stl_lower_bound = int(self.stl_filter_entry_lower_bound.get() or 0)
 
-        if len(height_upper_bound_ft) == 0:
-            height_upper_bound_ft = 9
-        else:
-            height_upper_bound_ft = int(height_upper_bound_ft)
+        self.blk_lower_bound = int(self.blk_filter_entry_lower_bound.get() or 0)
 
-        height_upper_bound_in = self.height_filter_entry_upper_bound_in.get()
+        self.to_upper_bound = int(self.to_filter_entry_upper_bound.get() or 100)
 
-        if len(height_upper_bound_in) == 0:
-            height_upper_bound_in = 0
-        else:
-            height_upper_bound_in = int(height_upper_bound_in)
+        self.pf_upper_bound = int(self.pf_filter_entry_upper_bound.get() or 100)
 
-        self.height_upper_bound = height_upper_bound_ft * 12 + height_upper_bound_in
+        self.pts_lower_bound = int(self.pts_filter_entry_lower_bound.get() or 0)
 
+        self.plus_minus_lower_bound = int(self.plus_minus_filter_entry_lower_bound.get() or -100)
 
         #After upper and lower bounds are decided for each stat, apply these filters
         self.filter_players()
+
 
     def next_page(self):
         self.page_index += 1
@@ -375,16 +689,28 @@ class AddPlayer(ctk.CTkFrame):
 
         self.filtered_players = [
             player for player in self.master.all_players
-            if player.name.lower().startswith(search_text)
+            if player.player_name.lower().startswith(search_text)
                and player not in self.master.team
-               and self.age_lower_bound <= player.age <= self.age_upper_bound
-               and self.weight_lower_bound <= int(player.weight) <= self.weight_upper_bound
-               and self.height_lower_bound <= (player.height_ft * 12 + player.height_inch) <= self.height_upper_bound
-
+               and self.fgm_lower_bound <= player.fgm
+               and self.fga_lower_bound <= player.fga
+               and self.fg_pct_lower_bound <= 100 * player.fg_pct
+               and self.fg3m_lower_bound <= player.fg3m
+               and self.fg3a_lower_bound <= player.fg3a
+               and self.fg3_pct_lower_bound <= 100 * player.fg3_pct
+               and self.ftm_lower_bound <= player.ftm
+               and self.fta_lower_bound <= player.fta
+               and self.ft_pct_lower_bound <= 100 * player.ft_pct
+               and self.oreb_lower_bound <= player.oreb
+               and self.dreb_lower_bound <= player.dreb
+               and self.reb_lower_bound <= player.reb
+               and self.ast_lower_bound <= player.ast
+               and self.stl_lower_bound <= player.stl
+               and self.blk_lower_bound <= player.blk
+               and player.to <= self.to_upper_bound
+               and player.pf <= self.pf_upper_bound
+               and self.pts_lower_bound <= player.pts
+               and self.plus_minus_lower_bound <= player.plus_minus
         ]
-
-        #for player in self.filtered_players:
-        #    print(player.height_ft * 12 + player.height_inch)
 
         #Reset to first page when the user applies new filters
         self.page_index = 0
