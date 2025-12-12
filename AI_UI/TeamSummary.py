@@ -20,26 +20,8 @@ class TeamSummary(ctk.CTkFrame):
         big_frame = ctk.CTkFrame(self, fg_color="transparent")
         big_frame.pack(anchor="center", padx=0, pady=0)
 
-        # label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-        # label.pack(pady=(5,0), anchor = "w", padx = 0)
-
-        if len(self.master.team) >= 8:
-            print("called")
-            estimator = team_evaluator.Team_Estimator()
-
-            # Convert the team to a DataFrame for prediction
-            team_data = utils.team_to_dataframe(self.master.team)
-
-            win_probability = estimator.predict_score(team_data)[0]
-
-            win_percentage = round(win_probability * 100, 2)
-
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: " + str(win_percentage) + "%",
-                                 font=("Arial", 40, "bold"))
-            label.pack(pady=(5, 0), anchor="w", padx=0)
-        else:
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-            label.pack(pady=(5, 0), anchor="w", padx=0)
+        label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
+        label.pack(pady=(5,0), anchor = "w", padx = 0)
 
         self.player_count = ctk.CTkLabel(big_frame, text="Players: " + str(len(self.master.team)) + f"/{self.master.MAX_TEAM_SIZE}",
                                          font=("Arial", 40, "bold"))
@@ -139,7 +121,7 @@ class TeamSummary(ctk.CTkFrame):
         box.destroy()
 
     def predict_win_percentage(self, big_frame):
-        """ Used to predict the win percentage of the current team """
+        # """ Used to predict the win percentage of the current team """
 
         if len(self.master.team) >= 8:
             print("called")
@@ -150,9 +132,16 @@ class TeamSummary(ctk.CTkFrame):
             win_probability = self.master.estimator.predict_score(team_data)[0]
         
             win_percentage = round(win_probability * 100, 2)
-        
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: " + str(win_percentage) + "%", font=("Arial", 40, "bold"))
-            label.pack(pady=(5,0), anchor = "w", padx = 0)
+            print(f"Predicted Win %: {win_percentage}%")
+
+            #Update the label showing the estimated win percentage
+            for widget in big_frame.winfo_children():
+                if isinstance(widget, ctk.CTkLabel) and "Estimated Win %" in widget.cget("text"):
+                    widget.configure(text="Estimated Win %: " + str(win_percentage) + "%")
+                    break
+
         else:
-            label = ctk.CTkLabel(big_frame, text="Estimated Win %: (Need More Players)", font=("Arial", 40, "bold"))
-            label.pack(pady=(5,0), anchor = "w", padx = 0)
+            for widget in big_frame.winfo_children():
+                if isinstance(widget, ctk.CTkLabel) and "Estimated Win %" in widget.cget("text"):
+                    widget.configure(text="Estimated Win %: (Need More Players)")
+                    break

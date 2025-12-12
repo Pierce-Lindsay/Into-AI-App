@@ -12,7 +12,6 @@ class App(ctk.CTk):
     all_players: list[Player] = []
     team: list[Player] = []
     estimator = team_evaluator.Team_Estimator()
-    player_stats_df = pd.read_csv("data/player_stats_per_player.csv")
 
     def __init__(self):
         super().__init__()
@@ -27,7 +26,7 @@ class App(ctk.CTk):
         # The maximum size of a team (may be decreased depending on the model)
         self.MAX_TEAM_SIZE = 8
 
-        df = pd.read_csv("player_stats_per_player.csv")
+        player_stats_df = pd.read_csv("data/player_stats_per_player.csv")
 
         #df = df[df["to_year"] >= 2004]
 
@@ -40,7 +39,7 @@ class App(ctk.CTk):
         #df = df[["display_first_last", "weight", "height", "age"]]
 
         #For each row, create a new player and add it to all_players
-        for index, row in df.iterrows():
+        for index, row in player_stats_df.iterrows():
             player_name = row["PLAYER_NAME"]
             fgm = row["FGM"]
             fga = row["FGA"]
@@ -88,7 +87,7 @@ class App(ctk.CTk):
                 pts = pts,
                 plus_minus = plus_minus,
                 player_id = player_id,
-                image_path="AI_UI_NBA_Player_Images_67/" + player_name + ".png"
+                image_path="AI_UI/AI_UI_NBA_Player_Images_67/" + player_name + ".png"
             )
 
             self.all_players.append(player)
