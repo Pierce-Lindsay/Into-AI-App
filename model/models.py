@@ -5,15 +5,19 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer, matthews_corrcoef
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+from xgboost import XGBClassifier
+
 
 #model constants
 K_SPLIT_COUNT = 5
 MAX_ITER = 1000
 #we want all scoring to be done according to MCC
-SCORER = make_scorer(matthews_corrcoef)
+#SCORER = make_scorer(matthews_corrcoef)
+SCORER = 'neg_log_loss'
+CV = StratifiedKFold(n_splits=K_SPLIT_COUNT, shuffle=True, random_state=1)
 
 #base class for models
 class Model:
@@ -69,7 +73,7 @@ class SVM(Model):
             ("clf", SVC(probability=True,random_state=1, max_iter=MAX_ITER))])
         
         print("Fitting...SVM!")
-        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=K_SPLIT_COUNT)
+        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=CV)
         self.update_grid()
         
 #wrapper class for K nearest Neighbors    
@@ -87,7 +91,7 @@ class KNeighbors(Model):
         ("scaler", StandardScaler()),
         ("clf", KNeighborsClassifier())])
         
-        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=K_SPLIT_COUNT)
+        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=CV)
         self.update_grid()                   
 
 #wrapper class for decision tree
@@ -106,7 +110,7 @@ class DecisionTree(Model):
         ("scaler", StandardScaler()),
         ("clf", DecisionTreeClassifier(random_state=1))])
         
-        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=K_SPLIT_COUNT)
+        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=CV)
         self.update_grid()
         
 #wrapper for logistic regression 
@@ -124,5 +128,23 @@ class LogRegression(Model):
         ("scaler", StandardScaler()),
         ("clf", LogisticRegression(max_iter=MAX_ITER))])
         
-        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=K_SPLIT_COUNT)
+        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=CV)
+        self.update_grid()  
+        
+class XGB(Model):
+    def __init__(self, train_X, train_Y):
+        super().__init__(train_X, train_Y)
+        self.name = "XG boost"
+
+    def optimize(self):
+        #perams to optimize
+        param_grid = {'clf__n_estimators':[100, 200, 400, 600, 900], 
+                      'clf__max_depth':[3, 5, 10, 20], 
+                      'clf__learning_rate':[0.001, 0.01, 0.1]}
+        pipe = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", XGBClassifier(objective = 'binary:logistic',
+                              eval_metric= 'logloss'))])
+        
+        self.grid = GridSearchCV(pipe, param_grid, scoring=SCORER, cv=CV, n_jobs=-1)
         self.update_grid()  

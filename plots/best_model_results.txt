@@ -1,0 +1,11 @@
+Cross-Validation Results:
+Log Loss: 0.6681 (+/- 0.0017)
+Brier:    0.2377 (+/- 0.0008)
+AUC:      0.6270 (+/- 0.0051)
+MCC:      0.1820 (+/- 0.0127)
+
+Test Set Performance:
+Log Loss: 0.6693
+Brier Loss: 0.2383
+AUC: 0.6230
+MCC: 0.1757
